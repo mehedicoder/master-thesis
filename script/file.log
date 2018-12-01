@@ -1,0 +1,119 @@
+=============== Index Docs =============
+index file:  ../sample-data/2.txt
+write file:  ../output/doc_wids/2.txt
+index file:  ../sample-data/0.txt
+write file:  ../output/doc_wids/0.txt
+index file:  ../sample-data/1.txt
+write file:  ../output/doc_wids/1.txt
+n(w)= 48267
+write: ../output/voca.txt
+=============== Topic Learning =============
+make: Nothing to be done for `all'.
+=== ibtm: end_day 3 , K 20, W 48267, alpha 2.500000, beta 0.005000 ====
+Model=ibtm, win=2000000, n_rej=100
+----- proc day 0 ------
+load docs: ../output/doc_wids/0.txt
+proc doc:0proc doc:1000proc doc:2000proc doc:3000proc doc:4000proc doc:5000proc doc:6000proc doc:7000proc doc:8000proc doc:9000proc doc:10000proc doc:11000proc doc:12000proc doc:13000proc doc:14000proc doc:15000proc doc:16000proc doc:17000proc doc:18000proc doc:19000proc doc:20000proc doc:21000proc doc:22000proc doc:23000proc doc:24000proc doc:25000proc doc:26000proc doc:27000proc doc:28000proc doc:29000
+write p(z): ../output/model/k20.day0.pz
+write p(w|z): ../output/model/k20.day0.pw_z
+----- proc day 1 ------
+load docs: ../output/doc_wids/1.txt
+proc doc:0proc doc:1000proc doc:2000proc doc:3000proc doc:4000proc doc:5000proc doc:6000proc doc:7000proc doc:8000proc doc:9000proc doc:10000proc doc:11000proc doc:12000proc doc:13000proc doc:14000proc doc:15000proc doc:16000proc doc:17000proc doc:18000proc doc:19000proc doc:20000proc doc:21000proc doc:22000proc doc:23000proc doc:24000proc doc:25000proc doc:26000proc doc:27000proc doc:28000proc doc:29000
+write p(z): ../output/model/k20.day1.pz
+write p(w|z): ../output/model/k20.day1.pw_z
+----- proc day 2 ------
+load docs: ../output/doc_wids/2.txt
+proc doc:0proc doc:1000proc doc:2000proc doc:3000proc doc:4000proc doc:5000proc doc:6000proc doc:7000proc doc:8000proc doc:9000proc doc:10000proc doc:11000proc doc:12000proc doc:13000proc doc:14000proc doc:15000proc doc:16000proc doc:17000proc doc:18000proc doc:19000proc doc:20000proc doc:21000proc doc:22000proc doc:23000proc doc:24000proc doc:25000proc doc:26000proc doc:27000proc doc:28000proc doc:29000
+write p(z): ../output/model/k20.day2.pz
+write p(w|z): ../output/model/k20.day2.pw_z
+================ Infer P(z|d)===============
+../src/infer sum_b 20 0 ../output/doc_wids/0.txt ../output/model/
+----- Run inference:K=20, day=0, type sum_b -----
+load p(z):../output/model/k20.day0.pz
+load p(w|z):../output/model/k20.day0.pw_z
+n(z)=20, n(w)=48267
+Infer p(z|d) for docs in: ../output/doc_wids/0.txt
+write p(z|d): ../output/model/k20.day0.pz_d
+../src/infer sum_b 20 1 ../output/doc_wids/1.txt ../output/model/
+----- Run inference:K=20, day=1, type sum_b -----
+load p(z):../output/model/k20.day1.pz
+load p(w|z):../output/model/k20.day1.pw_z
+n(z)=20, n(w)=48267
+Infer p(z|d) for docs in: ../output/doc_wids/1.txt
+write p(z|d): ../output/model/k20.day1.pz_d
+../src/infer sum_b 20 2 ../output/doc_wids/2.txt ../output/model/
+----- Run inference:K=20, day=2, type sum_b -----
+load p(z):../output/model/k20.day2.pz
+load p(w|z):../output/model/k20.day2.pw_z
+n(z)=20, n(w)=48267
+Infer p(z|d) for docs in: ../output/doc_wids/2.txt
+write p(z|d): ../output/model/k20.day2.pz_d
+---------- day 0 --------------
+K:20, day:0, n(W):48267
+p(z)		Top words
+0.092177	wit:0.007908 hit:0.005681 aint:0.005378 nigga:0.005127 adam:0.004653 jus:0.004429 yall:0.003967 bitch:0.003796 dnt:0.003677 cuz:0.003625
+0.084706	eu:0.015243 q:0.007915 la:0.007901 pra:0.007485 um:0.006696 na:0.006395 mas:0.005994 mi:0.005850 se:0.005822 como:0.005707
+0.082088	doesn:0.003847 head:0.003403 post:0.003285 room:0.003225 mom:0.003151 crazy:0.003122 makes:0.002989 niggas:0.002678 guess:0.002589 em:0.002589
+0.076645	makes:0.004214 cuz:0.003834 face:0.003834 heart:0.003723 mind:0.003438 girls:0.003263 mom:0.002994 movie:0.002931 lot:0.002899 doesn:0.002883
+0.064770	facebook:0.005601 movie:0.005470 codysimpson:0.005433 justin:0.005133 job:0.004552 followers:0.004196 coming:0.003765 fan:0.003559 men:0.003503 sex:0.003466
+0.061928	party:0.004212 jets:0.004173 lil:0.004035 hair:0.003937 ha:0.003918 j:0.003644 eyes:0.003428 nigga:0.003291 beautiful:0.003056 wit:0.002978
+0.047052	left:0.008856 half:0.007209 hours:0.006771 1st:0.006668 24:0.005921 lead:0.005793 11:0.005458 360:0.005406 minutes:0.005278 points:0.004531
+0.044829	feature:0.007915 sunday:0.006861 channel:0.005565 autoshare:0.005430 party:0.004160 eat:0.004079 subscribed:0.004052 hot:0.003701 amp:0.003674 boy:0.003620
+0.044412	sunday:0.007552 bears:0.007007 tmb:0.006516 east:0.004771 pagi:0.004690 chicago:0.004635 di:0.004499 packers:0.004172 top:0.004035 star:0.003926
+0.042908	st:0.008069 red:0.005276 ufc:0.004712 online:0.004571 fight:0.004543 guard:0.003640 state:0.003612 top:0.003527 c:0.003358 city:0.003329
+0.040868	called:0.006693 years:0.004738 dude:0.003494 deaf:0.003198 movie:0.003139 design:0.003050 yr:0.002843 job:0.002695 tv:0.002665 website:0.002665
+0.039710	iphone:0.010055 apple:0.008684 app:0.007709 ipad:0.007313 _:0.004540 aku:0.004266 silver:0.004235 store:0.003961 ke:0.003535 download:0.003321
+0.039696	party:0.004755 join:0.004664 dinner:0.004389 favorite:0.004298 boxes:0.004207 listening:0.004054 film:0.004024 amazing:0.003475 summer:0.003353 food:0.003109
+0.039130	0:0.041369 wind:0.018087 c:0.016016 00:0.014655 9:0.013450 01:0.010914 rain:0.009987 humidity:0.009399 22:0.009368 pm:0.008688
+0.036690	jobs:0.005504 john:0.005175 obama:0.005142 di:0.003461 tcot:0.003329 charged:0.003131 police:0.003131 photo:0.002933 album:0.002900 shows:0.002835
+0.036456	22:0.005606 law:0.004113 years:0.004080 heath:0.003748 top:0.003715 ago:0.003483 ledger:0.003450 como:0.002919 blog:0.002819 html:0.002819
+0.033736	die:0.011248 ik:0.010245 award:0.008955 justin:0.007630 een:0.006949 dat:0.006233 shorty:0.006018 van:0.006018 nominate:0.005946 bieber:0.005696
+0.030950	f:0.011041 card:0.007608 fair:0.007374 winds:0.006477 airport:0.006008 pressure:0.005657 mb:0.005462 ice:0.005306 l:0.005228 pro:0.005033
+0.030699	social:0.008850 amp:0.006018 marketing:0.005939 reading:0.005664 media:0.004995 story:0.004602 dj:0.004366 giveaway:0.004287 network:0.003933 online:0.003855
+0.030552	caga:0.008022 online:0.005098 local:0.004663 en:0.004466 offers:0.004070 left:0.004031 lost:0.003754 la:0.003675 google:0.003517 business:0.003359
+---------- day 1 --------------
+K:20, day:1, n(W):48267
+p(z)		Top words
+0.109757	wit:0.006089 nigga:0.005871 jets:0.005212 dat:0.005083 aint:0.005083 cuz:0.004815 dnt:0.004089 bitch:0.004044 yu:0.003955 yea:0.003949
+0.088824	eu:0.014980 q:0.008156 la:0.007839 pra:0.007294 na:0.006873 um:0.006348 meu:0.006279 se:0.005872 en:0.005824 em:0.005596
+0.085492	girls:0.003384 head:0.003348 movie:0.003348 doesn:0.003032 makes:0.003025 tv:0.002796 bitch:0.002731 mom:0.002717 crazy:0.002638 room:0.002423
+0.081204	heart:0.003796 makes:0.003343 girls:0.003253 mom:0.003192 mind:0.003102 friend:0.002928 face:0.002928 doesn:0.002860 true:0.002860 person:0.002649
+0.076439	jets:0.030806 steelers:0.016978 sanchez:0.007118 fans:0.006116 fan:0.005932 yellow:0.005042 team:0.004914 mark:0.004738 nfl:0.004489 cutler:0.004329
+0.066099	justin:0.005950 facebook:0.004495 followers:0.004328 bieber:0.003957 movie:0.003549 part:0.003327 girls:0.003299 codysimpson:0.003095 send:0.003012 sex:0.002984
+0.047360	jets:0.013375 steelers:0.010028 24:0.008633 half:0.008335 left:0.007237 hours:0.006604 minutes:0.005531 played:0.005428 lead:0.005376 1st:0.005247
+0.040818	st:0.006444 online:0.004256 red:0.004002 men:0.003597 city:0.003147 fight:0.003147 ufc:0.003102 20:0.002878 buy:0.002803 state:0.002713
+0.039356	packers:0.011998 bears:0.011703 top:0.010087 green:0.007072 artists:0.006932 lastfm:0.006869 weekly:0.006683 bowl:0.006108 chicago:0.006046 sunday:0.004849
+0.037726	called:0.004588 amp:0.003307 years:0.003161 white:0.002999 dude:0.002626 website:0.002480 page:0.002480 post:0.002448 birthday:0.002399 top:0.002351
+0.037335	feature:0.009615 yellow:0.008092 amp:0.007207 channel:0.005815 sunday:0.005586 autoshare:0.005504 eat:0.004914 weight:0.004717 food:0.004161 hot:0.003997
+0.036875	jets:0.005655 steelers:0.004759 years:0.003930 afc:0.003532 ago:0.003234 22:0.002952 deo:0.002604 part:0.002587 24:0.002570 html:0.002537
+0.036852	party:0.006189 birthday:0.005360 dinner:0.005343 amazing:0.003999 favorite:0.003485 film:0.003335 join:0.003070 listening:0.003020 food:0.002688 pizza:0.002688
+0.033541	social:0.008238 marketing:0.005322 media:0.005012 business:0.004574 online:0.004338 reading:0.003445 giveaway:0.003280 jan:0.003280 network:0.003226 price:0.003135
+0.032756	0:0.041106 wind:0.017353 00:0.016047 c:0.014386 f:0.013584 9:0.013565 01:0.013472 humidity:0.011158 rain:0.010561 mph:0.009852
+0.032695	police:0.012450 detroit:0.006898 shot:0.006020 obama:0.004991 tcot:0.004786 officers:0.004711 jobs:0.004561 john:0.004094 chicken:0.004019 na:0.003440
+0.031957	iphone:0.009485 apple:0.008223 ipad:0.007439 app:0.007018 aku:0.004609 air:0.004571 _:0.004188 silver:0.004112 download:0.003920 yg:0.003500
+0.031370	online:0.004967 buy:0.004578 caga:0.003838 www:0.003682 health:0.003565 search:0.003545 business:0.003526 google:0.003273 job:0.002883 fast:0.002825
+0.028895	ice:0.005116 f:0.004714 fair:0.004672 card:0.004588 cream:0.004588 pro:0.004207 buy:0.003721 l:0.003509 post:0.003467 top:0.003404
+0.024648	die:0.011440 ik:0.009459 award:0.009261 je:0.008221 een:0.007850 shorty:0.006488 nominate:0.006067 van:0.005893 en:0.005547 dat:0.004903
+---------- day 2 --------------
+K:20, day:2, n(W):48267
+p(z)		Top words
+0.117732	wit:0.006468 nigga:0.005983 dat:0.005040 cuz:0.004883 bitch:0.004798 aint:0.004627 jus:0.004480 yu:0.004426 dnt:0.003893 lil:0.003848
+0.092411	eu:0.015758 q:0.009660 la:0.007264 pra:0.006994 na:0.006603 um:0.006359 se:0.006311 meu:0.005824 mi:0.005720 te:0.005707
+0.089604	makes:0.003261 girls:0.003194 tv:0.003005 mom:0.002727 head:0.002682 bitch:0.002669 movie:0.002512 doesn:0.002346 crazy:0.002283 guess:0.002265
+0.086476	heart:0.003755 makes:0.003086 person:0.002970 mom:0.002909 woman:0.002896 doesn:0.002882 mind:0.002631 true:0.002589 won:0.002547 friend:0.002500
+0.069694	jets:0.026745 steelers:0.015797 yellow:0.006163 fan:0.006048 fans:0.005696 sanchez:0.005419 team:0.004739 ha:0.004353 cutler:0.004301 football:0.003995
+0.068223	justin:0.005730 followers:0.004352 facebook:0.004211 bieber:0.003681 movie:0.003557 part:0.003422 read:0.003263 send:0.002986 friend:0.002962 amazing:0.002933
+0.044324	jets:0.008143 24:0.008089 half:0.007473 left:0.007029 steelers:0.006667 hours:0.006341 0:0.005598 played:0.005399 minutes:0.005172 team:0.004864
+0.041787	st:0.005361 red:0.003766 city:0.003257 state:0.003132 buy:0.002940 20:0.002863 online:0.002824 times:0.002786 000:0.002680 part:0.002555
+0.039615	party:0.005451 dinner:0.005411 birthday:0.004803 hot:0.003121 amazing:0.002979 dj:0.002908 album:0.002786 pizza:0.002715 food:0.002695 film:0.002645
+0.038212	called:0.003592 amp:0.003435 top:0.003130 post:0.002973 white:0.002867 tv:0.002668 page:0.002395 movie:0.002216 years:0.002195 read:0.002164
+0.036625	social:0.007199 business:0.005961 marketing:0.004766 online:0.004591 media:0.004361 jobs:0.003528 blog:0.003419 job:0.003375 network:0.003298 internet:0.003167
+0.035630	online:0.006622 buy:0.004944 www:0.004359 business:0.004066 health:0.003976 post:0.003413 google:0.003334 search:0.003187 food:0.003142 web:0.002804
+0.035015	years:0.003346 html:0.002750 jets:0.002533 ago:0.002407 jan:0.002407 law:0.002372 post:0.002269 book:0.002212 deo:0.002189 movie:0.002143
+0.032842	feature:0.009956 amp:0.008429 weight:0.006157 channel:0.005839 autoshare:0.005387 hot:0.005106 drink:0.005021 loss:0.004801 eat:0.004715 food:0.004288
+0.031430	police:0.010606 obama:0.006037 tcot:0.005960 detroit:0.005680 shot:0.005118 na:0.005029 jobs:0.004659 officers:0.004416 state:0.004110 chicken:0.003510
+0.030906	top:0.009617 packers:0.009604 bears:0.008540 green:0.006437 artists:0.006373 lastfm:0.006347 weekly:0.006178 di:0.005905 chicago:0.005581 bowl:0.005179
+0.030680	0:0.042595 00:0.017964 wind:0.016343 f:0.014761 9:0.014630 c:0.013872 01:0.012342 humidity:0.012080 pm:0.010603 rain:0.010302
+0.030245	iphone:0.009906 apple:0.009071 ipad:0.007586 app:0.007095 aku:0.005145 _:0.004973 yg:0.004814 di:0.004191 ga:0.004138 ke:0.003806
+0.028978	ice:0.005508 cream:0.004955 buy:0.004373 sale:0.004276 car:0.003764 card:0.003764 pro:0.003418 f:0.003391 post:0.003335 city:0.002906
+0.019570	die:0.012972 award:0.011969 ik:0.009555 shorty:0.009432 nominate:0.009350 je:0.009166 een:0.009084 en:0.007202 van:0.005749 dan:0.005258
