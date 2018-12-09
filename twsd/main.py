@@ -10,6 +10,7 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 
 from twsd.Listener import Listener
+from twsd.Preprocess import process_data
 
 api_keys_missing = Exception("Twitter API Keys missing! Please fill the "
                              "API key values in settings.txt ... ")
@@ -81,14 +82,16 @@ def main():
     config = import_config()
     validate_twitter_keys(config)
     _listener = Listener(args.lang, args.storage, args.only_text, args.omit_rt)
-    auth = OAuthHandler(config["consumer_key"],
-                        config["consumer_secret"])
-    auth.set_access_token(config["access_token"],
-                          config["access_token_secret"])
-
-    stream = Stream(auth, _listener, tweet_mode="extended",
-                    headers={"tweet_mode": "extended"})
+    auth = OAuthHandler(config["consumer_key"], config["consumer_secret"])
+    auth.set_access_token(config["access_token"], config["access_token_secret"])
+    stream = Stream(auth, _listener, tweet_mode="extended", headers={"tweet_mode": "extended"})
     stream.sample(languages=args.lang, async=True)
+
+    cleaned_data = process_data("output/2018_12_08_15.tsv")
+    print('\n'.join(cleaned_data))
+    f = open("output/cleaned_tweets", "a")
+    f.write("\n".join(cleaned_data))
+    f.close()
 
 
 if __name__ == '__main__':
