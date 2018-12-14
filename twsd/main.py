@@ -1,16 +1,16 @@
+import argparse
 import os
 import sys
-
-sys.path.append('../')
-sys.path.append('./')
-
-import argparse
 from argparse import RawTextHelpFormatter
+
 from tweepy import OAuthHandler
 from tweepy import Stream
 
 from twsd.Listener import Listener
-from twsd.Preprocess import process_data
+from twsd.Preprocessor import pre_process
+
+sys.path.append('../')
+sys.path.append('./')
 
 api_keys_missing = Exception("Twitter API Keys missing! Please fill the "
                              "API key values in settings.txt ... ")
@@ -87,11 +87,14 @@ def main():
     stream = Stream(auth, _listener, tweet_mode="extended", headers={"tweet_mode": "extended"})
     stream.sample(languages=args.lang, async=True)
 
-    cleaned_data = process_data("output/2018_12_08_15.tsv")
-    print('\n'.join(cleaned_data))
-    f = open("output/cleaned_tweets", "a")
-    f.write("\n".join(cleaned_data))
-    f.close()
+    files_to_be_cleaned = os.listdir("output")
+    for name in files_to_be_cleaned:
+        if not name.__contains__("cleaned"):
+            cleaned_data = pre_process(os.path.join('output/' + name))
+            print('\n'.join(cleaned_data))
+            f = open("output/" + os.path.splitext(name)[0] + "_cleaned.txt", "a")
+            f.write("\n".join(cleaned_data))
+            f.close()
 
 
 if __name__ == '__main__':

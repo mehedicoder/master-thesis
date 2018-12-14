@@ -4,7 +4,7 @@ import pandas as pd
 import datetime
 
 
-def pre_process(raw_text):
+def process_data(raw_text):
 
     # keep only words
     letters_only_text = re.sub("[^a-zA-Z]", " ", raw_text)
@@ -13,8 +13,8 @@ def pre_process(raw_text):
     words = letters_only_text.lower().split()
 
     # remove stopwords
-    stopword_set = set(stopwords.words("english"))
-    meaningful_words = [w for w in words if w not in stopword_set]
+    stopwords_list = set(stopwords.words("english"))
+    meaningful_words = [w for w in words if w not in stopwords_list]
 
     # join the cleaned words in a list
     cleaned_word_list = " ".join(meaningful_words)
@@ -22,7 +22,7 @@ def pre_process(raw_text):
     return cleaned_word_list
 
 
-def process_data(data_set):
+def pre_process(data_set):
     tweets_df = pd.read_csv(data_set, delimiter='\t', header=None)
 
     num_tweets = tweets_df.shape[0]
@@ -32,7 +32,7 @@ def process_data(data_set):
     print("Beginning processing of tweets at: " + str(datetime.datetime.now()))
 
     for i in range(num_tweets):
-        cleaned_tweet = pre_process(tweets_df.iloc[i][1])
+        cleaned_tweet = process_data(tweets_df.iloc[i][1])
         cleaned_tweets.append(cleaned_tweet)
         if i % 10000 == 0:
             print(str(i) + " tweets processed")
