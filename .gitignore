@@ -1,7 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 /twsd/settings.txt
-/twsd/output/*
-/twsd/venv/*
-/.idea/workspace.xml
+/twsd/output/*.txt
+/.idea/*.xml
 
 
