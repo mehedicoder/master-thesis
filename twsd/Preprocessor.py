@@ -1,7 +1,38 @@
-import re
-from nltk.corpus import stopwords
-import pandas as pd
 import datetime
+import re
+import nltk
+
+import pandas as pd
+from nltk.corpus import stopwords
+from nltk.corpus import wordnet
+from nltk.stem.wordnet import WordNetLemmatizer
+
+lemmatizer = WordNetLemmatizer()
+
+
+def nltk2wn_parts_of_speech_tag(nltk_tag):
+    if nltk_tag.startswith('J'):
+        return wordnet.ADJ
+    elif nltk_tag.startswith('V'):
+        return wordnet.VERB
+    elif nltk_tag.startswith('N'):
+        return wordnet.NOUN
+    elif nltk_tag.startswith('R'):
+        return wordnet.ADV
+    else:
+        return None
+
+
+def lemmatize(sentence):
+    nltk_tagged = nltk.pos_tag(nltk.word_tokenize(sentence))
+    wn_tagged = map(lambda x: (x[0], nltk2wn_parts_of_speech_tag(x[1])), nltk_tagged)
+    res_words = []
+    for word, tag in wn_tagged:
+        if tag is None:
+            res_words.append(word)
+        else:
+            res_words.append(lemmatizer.lemmatize(word, tag))
+    return " ".join(res_words)
 
 
 def process_data(raw_text):
@@ -18,8 +49,11 @@ def process_data(raw_text):
     # keep only words
     letters_only_text = re.sub("[^a-zA-Z]", " ", hash_tag_removed_text)
 
+    # apply lemmatizer
+    lemmatized_text = lemmatize(letters_only_text)
+
     # convert to lower case and split
-    words = letters_only_text.lower().split()
+    words = lemmatized_text.lower().split()
 
     # remove stopwords
     stopwords_list = set(stopwords.words("english"))
