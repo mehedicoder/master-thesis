@@ -6,8 +6,17 @@ import datetime
 
 def process_data(raw_text):
 
+    # Remove urls
+    url_removed_text = re.sub(r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''', " ", raw_text)
+
+    # Remove user tagging
+    tagging_removed_text = " ".join(filter(lambda x: x[0] != '@', url_removed_text.split()))
+
+    # Remove hash_tags
+    hash_tag_removed_text = " ".join(filter(lambda x: x[0] != '#', tagging_removed_text.split()))
+
     # keep only words
-    letters_only_text = re.sub("[^a-zA-Z]", " ", raw_text)
+    letters_only_text = re.sub("[^a-zA-Z]", " ", hash_tag_removed_text)
 
     # convert to lower case and split
     words = letters_only_text.lower().split()
