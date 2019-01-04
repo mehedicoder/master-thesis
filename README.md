@@ -1,4 +1,4 @@
-Thesis Topic : Enhancing Biterm topic model (BTM) by using leammatizing the tweet corpus. 
+Thesis Topic: Enhancing Biterm topic model (BTM) by using leammatizing the tweet corpus. 
 
 Twitter Streamer:
  adopted from https://github.com/cbaziotis/twitter-stream-downloader
