@@ -8,6 +8,7 @@ import argparse
 from argparse import RawTextHelpFormatter
 from tweepy import OAuthHandler
 from tweepy import Stream
+import nltk
 
 from twsd.Listener import Listener
 from twsd.Preprocess import process_data
@@ -79,17 +80,21 @@ def validate_twitter_keys(_settings):
 
 
 def main():
-    config = import_config()
-    validate_twitter_keys(config)
-    _listener = Listener(args.lang, args.storage, args.only_text, args.omit_rt)
-    auth = OAuthHandler(config["consumer_key"], config["consumer_secret"])
-    auth.set_access_token(config["access_token"], config["access_token_secret"])
-    stream = Stream(auth, _listener, tweet_mode="extended", headers={"tweet_mode": "extended"})
-    stream.sample(languages=args.lang, async=True)
+    #config = import_config()
+    #validate_twitter_keys(config)
+    #_listener = Listener(args.lang, args.storage, args.only_text, args.omit_rt)
+    #auth = OAuthHandler(config["consumer_key"], config["consumer_secret"])
+    #auth.set_access_token(config["access_token"], config["access_token_secret"])
+    #stream = Stream(auth, _listener, tweet_mode="extended", headers={"tweet_mode": "extended"})
+    #track_items = "trump"
+    #stream.filter(track_items)
+    #stream.filter(track=['cricket'])
+    #stream.sample(languages=args.lang, async=True)
 
-    cleaned_data = process_data("output/2018_12_08_15.tsv")
+    #nltk.download('stopwords')
+    cleaned_data = process_data("output/disasters-on-social-media-QueryResult.csv")
     print('\n'.join(cleaned_data))
-    f = open("output/cleaned_tweets", "a")
+    f = open("output/cleaned_tweets_non_lemma", "a")
     f.write("\n".join(cleaned_data))
     f.close()
 

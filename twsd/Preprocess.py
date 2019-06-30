@@ -2,19 +2,48 @@ import re
 from nltk.corpus import stopwords
 import pandas as pd
 import datetime
+from nltk.tokenize import WordPunctTokenizer
+from nltk.corpus import wordnet
 
 
 def pre_process(raw_text):
 
+    # remove urls
+    url_pattern = 'http://\S+|https://\S+'
+    url_removed_text = re.sub(url_pattern, '', str(raw_text))
+
+    # remove RT and cc
+    RT_CC_removed_text = re.sub('RT|cc', '', url_removed_text)
+
+    # remove hashtags
+    hashtag_removed_text = re.sub('#\S+', '', RT_CC_removed_text)
+
+    # remove mentions
+    tweet = re.sub('@\S+', '', hashtag_removed_text)
+
     # keep only words
-    letters_only_text = re.sub("[^a-zA-Z]", " ", raw_text)
+    letters_only_text = re.sub("[^a-zA-Z]", " ", str(tweet))
+
+    # shortword removed
+    shortword_removed_words = re.sub(r'\b\w{1,2}\b', '', letters_only_text)
 
     # convert to lower case and split
-    words = letters_only_text.lower().split()
+    words = shortword_removed_words.lower().split()
+
+    only_existent_words = []
+    wpt = WordPunctTokenizer()
+
+    for s in words:
+        tokens = wpt.tokenize(s)
+        if tokens:  # check if empty string
+            for t in tokens:
+                if wordnet.synsets(t):
+                    only_existent_words.append(t)  # remove all non-existent words
+
 
     # remove stopwords
     stopword_set = set(stopwords.words("english"))
-    meaningful_words = [w for w in words if w not in stopword_set]
+    meaningful_words = [w for w in only_existent_words if w not in stopword_set]
 
     # join the cleaned words in a list
     cleaned_word_list = " ".join(meaningful_words)
