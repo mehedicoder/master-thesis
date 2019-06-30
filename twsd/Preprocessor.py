@@ -1,71 +1,81 @@
-import datetime
 import re
-import nltk
-
-import pandas as pd
 from nltk.corpus import stopwords
+import nltk
+import pandas as pd
+import datetime
+from nltk.tokenize import WordPunctTokenizer
 from nltk.corpus import wordnet
-from nltk.stem.wordnet import WordNetLemmatizer
+from nltk.stem import WordNetLemmatizer
 
-lemmatizer = WordNetLemmatizer()
+def get_wordnet_pos(word):
 
+    #Map POS tag to first character lemmatize() accepts
 
-def nltk2wn_parts_of_speech_tag(nltk_tag):
-    if nltk_tag.startswith('J'):
-        return wordnet.ADJ
-    elif nltk_tag.startswith('V'):
-        return wordnet.VERB
-    elif nltk_tag.startswith('N'):
-        return wordnet.NOUN
-    elif nltk_tag.startswith('R'):
-        return wordnet.ADV
-    else:
-        return None
+    tag = nltk.pos_tag([word])[0][1][0].upper()
+    tag_dict = {"J": wordnet.ADJ,
+                "N": wordnet.NOUN,
+                "V": wordnet.VERB,
+                "R": wordnet.ADV}
+
+    return tag_dict.get(tag, wordnet.NOUN)
 
 
-def lemmatize(sentence):
-    nltk_tagged = nltk.pos_tag(nltk.word_tokenize(sentence))
-    wn_tagged = map(lambda x: (x[0], nltk2wn_parts_of_speech_tag(x[1])), nltk_tagged)
-    res_words = []
-    for word, tag in wn_tagged:
-        if tag is None:
-            res_words.append(word)
-        else:
-            res_words.append(lemmatizer.lemmatize(word, tag))
-    return " ".join(res_words)
+def pre_process(raw_text):
 
+    # remove urls
+    url_pattern = 'http://\S+|https://\S+'
+    url_removed_text = re.sub(url_pattern, '', str(raw_text))
 
-def process_data(raw_text):
+    # remove RT and cc
+    RT_CC_removed_text = re.sub('RT|cc', '', url_removed_text)
 
-    # Remove urls
-    url_removed_text = re.sub(r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''', " ", raw_text)
+    # remove hashtags
+    hashtag_removed_text = re.sub('#\S+', '', RT_CC_removed_text)
 
-    # Remove user tagging
-    tagging_removed_text = " ".join(filter(lambda x: x[0] != '@', url_removed_text.split()))
-
-    # Remove hash_tags
-    hash_tag_removed_text = " ".join(filter(lambda x: x[0] != '#', tagging_removed_text.split()))
+    # remove mentions
+    tweet = re.sub('@\S+', '', hashtag_removed_text)
 
     # keep only words
-    letters_only_text = re.sub("[^a-zA-Z]", " ", hash_tag_removed_text)
+    letters_only_text = re.sub("[^a-zA-Z]", " ", str(tweet))
 
-    # apply lemmatizer
-    lemmatized_text = lemmatize(letters_only_text)
+    # shortword removed
+    shortword_removed_words = re.sub(r'\b\w{1,2}\b', '', letters_only_text)
 
     # convert to lower case and split
-    words = lemmatized_text.lower().split()
+    words = shortword_removed_words.lower().split()
+
+    only_existent_words = []
+    wpt = WordPunctTokenizer()
+
+    for s in words:
+        tokens = wpt.tokenize(s)
+        if tokens:  # check if empty string
+            for t in tokens:
+                if wordnet.synsets(t):
+                    only_existent_words.append(t)  # remove all non-existent words
+
 
     # remove stopwords
-    stopwords_list = set(stopwords.words("english"))
-    meaningful_words = [w for w in words if w not in stopwords_list]
+    stopword_set = set(stopwords.words("english"))
+    meaningful_words = [w for w in only_existent_words if w not in stopword_set]
 
     # join the cleaned words in a list
-    cleaned_word_list = " ".join(meaningful_words)
+    #cleaned_word_list = " ".join(meaningful_words)
 
-    return cleaned_word_list
+    # lemmatize the words
+
+    #nltk.download('averaged_perceptron_tagger')
+
+    lemmatized_output = []
+    wnl = WordNetLemmatizer()
+    lemmatized_output = [wnl.lemmatize(w, get_wordnet_pos(w)) for w in meaningful_words]
+
+    lemmatized_wordlist = " ".join(lemmatized_output)
+
+    return lemmatized_wordlist
 
 
-def pre_process(data_set):
+def process_data(data_set):
     tweets_df = pd.read_csv(data_set, delimiter='\t', header=None)
 
     num_tweets = tweets_df.shape[0]
@@ -75,7 +85,7 @@ def pre_process(data_set):
     print("Beginning processing of tweets at: " + str(datetime.datetime.now()))
 
     for i in range(num_tweets):
-        cleaned_tweet = process_data(tweets_df.iloc[i][1])
+        cleaned_tweet = pre_process(tweets_df.iloc[i][1])
         cleaned_tweets.append(cleaned_tweet)
         if i % 10000 == 0:
             print(str(i) + " tweets processed")
