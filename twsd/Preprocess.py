@@ -1,9 +1,23 @@
 import re
 from nltk.corpus import stopwords
+import nltk
 import pandas as pd
 import datetime
 from nltk.tokenize import WordPunctTokenizer
 from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+
+def get_wordnet_pos(word):
+
+    #Map POS tag to first character lemmatize() accepts
+
+    tag = nltk.pos_tag([word])[0][1][0].upper()
+    tag_dict = {"J": wordnet.ADJ,
+                "V": wordnet.VERB,
+                "N": wordnet.NOUN,
+                "R": wordnet.ADV}
+
+    return tag_dict.get(tag, wordnet.NOUN)
 
 
 def pre_process(raw_text):
@@ -46,9 +60,19 @@ def pre_process(raw_text):
     meaningful_words = [w for w in only_existent_words if w not in stopword_set]
 
     # join the cleaned words in a list
-    cleaned_word_list = " ".join(meaningful_words)
+    #cleaned_word_list = " ".join(meaningful_words)
 
-    return cleaned_word_list
+    # lemmatize the words
+
+    #nltk.download('averaged_perceptron_tagger')
+
+    lemmatized_output = []
+    wnl = WordNetLemmatizer()
+    lemmatized_output = [wnl.lemmatize(w, get_wordnet_pos(w)) for w in meaningful_words]
+
+    lemmatized_wordlist = " ".join(lemmatized_output)
+
+    return lemmatized_wordlist
 
 
 def process_data(data_set):
