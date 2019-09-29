@@ -94,7 +94,7 @@ def main():
     #nltk.download('stopwords')
     cleaned_data = process_data("output/disasters-on-social-media-QueryResult.csv")
     print('\n'.join(cleaned_data))
-    f = open("output/cleaned_tweets_lemmatized.txt", "a")
+    f = open("output/cleaned_lemmatized1.txt", "a")
     f.write("\n".join(cleaned_data))
     f.close()
 
