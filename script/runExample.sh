@@ -2,8 +2,8 @@
 # run an toy example for BTM
 set -e
 
-K=20   # number of topics
-W=48267   # vocabulary size
+K=221   # number of topics
+W=1148267   # vocabulary size
 
 alpha=`echo "scale=3;50/$K"|bc`
 beta=0.005
@@ -15,7 +15,7 @@ model_dir=${output_dir}model/
 
 voca_pt=${output_dir}voca.txt
 
-method=ibtm   # must be obtm or ibtm
+method=obtm   # must be obtm or ibtm
 
 echo "=============== Index Docs ============="
 python indexDocs.py $input_dir $dwid_dir $voca_pt
